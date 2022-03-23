@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 10.0f;
     public float defaultSpeed = 10.0f;
     public float sprintSpeed = 20.0f;
-    public float jumpForce = 100.0f;
+    public float jumpForce = 10.0f;
     public float cameraSensitivity = 2.0f;
     public int coins = 0;
     public GameObject focalPoint;
