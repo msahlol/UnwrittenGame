@@ -9,17 +9,22 @@ public class PlayerController : MonoBehaviour
     public float sprintSpeed = 20.0f;
     public float jumpForce = 10.0f;
     public float cameraSensitivity = 2.0f;
+    public float maxHealth = 100.0f;
+    public float health = 100.0f;
+    public float maxMana = 100.0f;
+    public float mana = 100.0f;
     public int coins = 0;
     public int selectedAbility = 0;
     public GameObject focalPoint;
     public GameObject gameCamera;
     public GameObject projectilePrefab;
     public GameObject projectileBurstPrefab;
+    public Healthbar healthBar;
+    public Manabar manaBar;
     public bool isTouchingGround = true;
     public bool canDoubleJump = false;
     public bool isInDecision = false;
 
-    public float health = 100.0f;
 
     private Rigidbody rb;
     private MenuHandler menuHandler;
@@ -40,6 +45,12 @@ public class PlayerController : MonoBehaviour
         menuHandler = gameObject.GetComponent<MenuHandler>();
         abilityHandler = gameObject.GetComponent<PlayerAbilities>();
         Cursor.lockState = CursorLockMode.Locked;
+
+        healthBar.SetMaxHealth(maxHealth);
+        healthBar.SetHealth(health);
+
+        manaBar.SetMaxMana(maxMana);
+        manaBar.SetMana(mana);
     }
 
     // Update is called once per frame
@@ -54,6 +65,8 @@ public class PlayerController : MonoBehaviour
                 currentDecision = null;
                 Time.timeScale = 1f;
                 Cursor.lockState = CursorLockMode.Locked;
+
+                
             }
             else if (!menuHandler.isPaused)
             {
@@ -198,6 +211,35 @@ public class PlayerController : MonoBehaviour
             other.gameObject.transform.Find("Decision Menu").gameObject.SetActive(true);
             Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
+        }
+
+        if (other.gameObject.CompareTag("Health"))
+        {
+            if((health + other.gameObject.GetComponent<HealthValue>().healthValue) > maxHealth) {
+                health = maxHealth;
+            }
+            else
+            {
+                health += other.gameObject.GetComponent<HealthValue>().healthValue;
+            }
+            
+            other.gameObject.SetActive(false);
+            healthBar.SetHealth(health);
+        }
+
+        if (other.gameObject.CompareTag("Mana"))
+        {
+            if ((mana + other.gameObject.GetComponent<ManaValue>().manaValue) > maxMana)
+            {
+                mana = maxMana;
+            }
+            else
+            {
+                mana += other.gameObject.GetComponent<ManaValue>().manaValue;
+            }
+            
+            other.gameObject.SetActive(false);
+            manaBar.SetMana(mana);
         }
     }
 
