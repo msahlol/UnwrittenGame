@@ -467,6 +467,7 @@ MonoBehaviour:
     type: 3}
   projectileBurstPrefab: {fileID: 3976420675745479284, guid: 13f021ca8a70dfc4d8ac9e6ee54c553d,
     type: 3}
+  health: 100
   isTouchingGround: 1
   canDoubleJump: 0
 --- !u!65 &649289800

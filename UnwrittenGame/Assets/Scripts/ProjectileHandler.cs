@@ -8,6 +8,7 @@ public class ProjectileHandler : MonoBehaviour
     public float projectileDamage = 4.0f;
     public float projectileKnockback = 0.0f;
     public Vector3 direction;
+    public Vector3 destroyOffset;
     public GameObject destroyPrefab;
 
     void Start()
@@ -43,7 +44,7 @@ public class ProjectileHandler : MonoBehaviour
 
     void DestroyProjectile()
     {
-        GameObject explosion = Instantiate(destroyPrefab, transform.position, transform.rotation);
+        GameObject explosion = Instantiate(destroyPrefab, transform.position + destroyOffset, transform.rotation);
         explosion.GetComponent<ParticleSystem>().Play();
         Destroy(gameObject);
     }

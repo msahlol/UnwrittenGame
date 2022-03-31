@@ -10,22 +10,26 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 10.0f;
     public float cameraSensitivity = 2.0f;
     public int coins = 0;
+    public int selectedAbility = 0;
     public GameObject focalPoint;
     public GameObject gameCamera;
     public GameObject projectilePrefab;
     public GameObject projectileBurstPrefab;
+    public bool isTouchingGround = true;
+    public bool canDoubleJump = false;
+    public bool isInDecision = false;
 
     public float health = 100.0f;
 
     private Rigidbody rb;
     private MenuHandler menuHandler;
+    private PlayerAbilities abilityHandler;
     private ParticleSystem sprintTrail;
     private ParticleSystem jumpBurstPrefab;
+    private GameObject currentDecision;
     private float maxCameraAngle = 60.0f;
     private float xRotation = 0.0f;
     private float yRotation = 0.0f;
-    public bool isTouchingGround = true;
-    public bool canDoubleJump = false;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +38,7 @@ public class PlayerController : MonoBehaviour
         sprintTrail = transform.Find("Trail").GetComponent<ParticleSystem>();
         jumpBurstPrefab = transform.Find("Jump Burst").GetComponent<ParticleSystem>();
         menuHandler = gameObject.GetComponent<MenuHandler>();
+        abilityHandler = gameObject.GetComponent<PlayerAbilities>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -42,7 +47,15 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!menuHandler.isPaused)
+            if (isInDecision && currentDecision != null)
+            {
+                isInDecision = false;
+                currentDecision.transform.Find("Decision Menu").gameObject.SetActive(false);
+                currentDecision = null;
+                Time.timeScale = 1f;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else if (!menuHandler.isPaused)
             {
                 menuHandler.PauseGame();
             }
@@ -52,7 +65,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (!menuHandler.isPaused)
+        if (!menuHandler.isPaused && !isInDecision)
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
@@ -82,7 +95,32 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                FireProjectile();
+                //FireProjectile();
+                abilityHandler.UseAbility(selectedAbility);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                //if (abilityHandler.abilityList[0].isUnlocked)
+                selectedAbility = 0;
+                menuHandler.UpdateSelectedAbility(selectedAbility);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                //if (abilityHandler.abilityList[1].isUnlocked)
+                selectedAbility = 1;
+                menuHandler.UpdateSelectedAbility(selectedAbility);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                //if (abilityHandler.abilityList[2].isUnlocked)
+                selectedAbility = 2;
+                menuHandler.UpdateSelectedAbility(selectedAbility);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                //if (abilityHandler.abilityList[3].isUnlocked)
+                selectedAbility = 3;
+                menuHandler.UpdateSelectedAbility(selectedAbility);
             }
 
             float horizontalInput = Input.GetAxis("Horizontal");
@@ -151,6 +189,23 @@ public class PlayerController : MonoBehaviour
         {
             coins += other.gameObject.GetComponent<CoinValue>().coinValue;
             other.gameObject.SetActive(false);
+        }
+
+        if (other.gameObject.CompareTag("Decision"))
+        {
+            isInDecision = true;
+            currentDecision = other.gameObject;
+            other.gameObject.transform.Find("Decision Menu").gameObject.SetActive(true);
+            Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Decision"))
+        {
+            other.gameObject.transform.Find("Decision Menu").gameObject.SetActive(false);
         }
     }
 }

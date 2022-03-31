@@ -1,11 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MenuHandler : MonoBehaviour
 {
     public GameObject pauseMenu;
+    public GameObject hud;
     public bool isPaused = false;
+
+    public void UpdateSelectedAbility(int abilityIndex)
+    {
+        Debug.Log(abilityIndex);
+        hud.transform.Find("Ability Select").GetComponent<TextMeshProUGUI>().text = (abilityIndex + 1).ToString();
+    }
 
     public void PauseGame()
     {
