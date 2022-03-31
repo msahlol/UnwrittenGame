@@ -9,11 +9,13 @@ TagManager:
   - Coin
   - Projectile
   - Ground
+  - EnemyAttack
+  - FlyingEnemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Obstruction
   - Water
   - UI
   - 

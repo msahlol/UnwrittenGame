@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7560675289122825839}
   - component: {fileID: 2179838821915930272}
   - component: {fileID: 8670579750172301603}
-  - component: {fileID: 672561099795421157}
+  - component: {fileID: -9072597528632471628}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -127,7 +127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyHealth: 10
---- !u!114 &672561099795421157
+  player: {fileID: 0}
+--- !u!114 &-9072597528632471628
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,7 +137,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1611482711933828132}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab57264978cdefd49a309cc230080ef1, type: 3}
+  m_Script: {fileID: 11500000, guid: 86fc2ff1ba4434b41a4418619e3907c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHealth: 10
+  radius: 15
+  angle: 360
+  player: {fileID: 1182811354758914, guid: 6fcc382533eeddd4cb59b9e20acca545, type: 3}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 8
+  playerInView: 0
+  directionToTarget: {x: 0, y: 0, z: 0}

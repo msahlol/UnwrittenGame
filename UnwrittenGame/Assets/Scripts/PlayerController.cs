@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     public GameObject projectilePrefab;
     public GameObject projectileBurstPrefab;
 
+    public float health = 100.0f;
+
     private Rigidbody rb;
     private MenuHandler menuHandler;
     private ParticleSystem sprintTrail;
@@ -121,6 +123,16 @@ public class PlayerController : MonoBehaviour
         {
             isTouchingGround = true;
             canDoubleJump = false;
+        }
+
+        if (collision.gameObject.CompareTag("EnemyAttack"))
+        {
+            health -= collision.gameObject.GetComponent<EnemyAttackHandler>().projectileDamage;
+        }
+
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            health -= collision.gameObject.GetComponent<EnemyHandler>().enemyDamage;
         }
     }
 

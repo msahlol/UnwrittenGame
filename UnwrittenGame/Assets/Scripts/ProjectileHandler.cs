@@ -33,6 +33,12 @@ public class ProjectileHandler : MonoBehaviour
             DestroyProjectile();
         }
 
+        if (collision.gameObject.CompareTag("FlyingEnemy"))
+        {
+            collision.gameObject.GetComponent<FlyingEnemyHandler>().TakeDamage(projectileDamage);
+            DestroyProjectile();
+        }
+
     }
 
     void DestroyProjectile()
