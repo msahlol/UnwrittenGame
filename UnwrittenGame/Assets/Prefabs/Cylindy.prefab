@@ -150,6 +150,9 @@ MonoBehaviour:
   enemyHealth: 10
   enemyDamage: 7
   player: {fileID: 0}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 512
   gravityOffset: -10
   spawnLocation: {x: 0, y: 0, z: 0}
   attackAngleOffset: 2
@@ -158,4 +161,5 @@ MonoBehaviour:
     type: 3}
   enemyAttackContactPrefab: {fileID: 3976420675745479284, guid: 13f021ca8a70dfc4d8ac9e6ee54c553d,
     type: 3}
-  coinPrefab: {fileID: 0}
+  coinPrefab: {fileID: 4466174813210906087, guid: 92e950b8bc43dc3438c67906b5c909b1,
+    type: 3}

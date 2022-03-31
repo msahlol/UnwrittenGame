@@ -151,6 +151,9 @@ MonoBehaviour:
   knockback: 20
   knockbackSpeed: 0.1
   player: {fileID: 0}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 512
   gravityOffset: -10
   spawnLocation: {x: 0, y: 0, z: 0}
   yOffset: 1

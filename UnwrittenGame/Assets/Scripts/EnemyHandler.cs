@@ -7,6 +7,7 @@ public class EnemyHandler : MonoBehaviour
     public float enemyHealth = 10.0f;
     public float enemyDamage = 7.0f;
     public GameObject player;
+    public LayerMask groundMask;
 
     private PlayerController pc;
     private Rigidbody rb;
@@ -78,9 +79,7 @@ public class EnemyHandler : MonoBehaviour
         if (enemyHealth <= 0)
         {
             gameObject.SetActive(false);
-            Instantiate(coinPrefab, new Vector3(transform.position.x, 2.5f, transform.position.z + 1.5f), Quaternion.identity * Quaternion.Euler(90, 0, 0));
-            Instantiate(coinPrefab, new Vector3(transform.position.x + 1.0f, 2.5f, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 45, 0));
-            Instantiate(coinPrefab, new Vector3(transform.position.x - 1.0f, 2.5f, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 135, 0));            
+            SpawnCoins();
         }
 
     }
@@ -142,5 +141,15 @@ public class EnemyHandler : MonoBehaviour
         rotation.x = 0.0f;
         rotation.z = 0.0f;
         transform.rotation = Quaternion.Euler(rotation);
+    }
+
+    private void SpawnCoins()
+    {
+        RaycastHit hit;
+        Physics.Raycast(transform.position, -Vector3.up, out hit, groundMask);
+
+        Instantiate(coinPrefab, new Vector3(transform.position.x, hit.transform.position.y + 1.5f, transform.position.z + 1.5f), Quaternion.identity * Quaternion.Euler(90, 0, 0));
+        Instantiate(coinPrefab, new Vector3(transform.position.x + 1.0f, hit.transform.position.y + 1.5f, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 45, 0));
+        Instantiate(coinPrefab, new Vector3(transform.position.x - 1.0f, hit.transform.position.y + 1.5f, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 135, 0));
     }
 }

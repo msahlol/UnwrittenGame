@@ -127,7 +127,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyHealth: 200
+  enemyDamage: 7
   player: {fileID: 0}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 512
+  gravityOffset: -10
+  spawnLocation: {x: 0, y: 0, z: 0}
+  attackAngleOffset: 15
+  followBuffer: 3
+  enemyAttackPrefab: {fileID: 3312957810480723768, guid: 3cc4e739574a8cb4bb5ae35742f0af53,
+    type: 3}
+  enemyAttackContactPrefab: {fileID: 3976420675745479284, guid: 13f021ca8a70dfc4d8ac9e6ee54c553d,
+    type: 3}
+  coinPrefab: {fileID: 4466174813210906087, guid: 92e950b8bc43dc3438c67906b5c909b1,
+    type: 3}
 --- !u!114 &5047586198555592760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,11 +155,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 7
-  angle: 0
+  angle: 360
   player: {fileID: 1182811354758914, guid: 6fcc382533eeddd4cb59b9e20acca545, type: 3}
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 0
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8

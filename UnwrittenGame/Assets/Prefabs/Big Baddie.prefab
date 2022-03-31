@@ -129,6 +129,9 @@ MonoBehaviour:
   enemyHealth: 5
   enemyDamage: 7
   player: {fileID: 0}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 512
   gravityOffset: -10
   spawnLocation: {x: 0, y: 0, z: 0}
   attackAngleOffset: 2
@@ -153,7 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 15
   angle: 360
-  player: {fileID: 1182811354758914, guid: 6fcc382533eeddd4cb59b9e20acca545, type: 3}
+  player: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
