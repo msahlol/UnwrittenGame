@@ -692,6 +692,7 @@ MonoBehaviour:
   health: 100
   maxMana: 100
   mana: 100
+  manaRegen: 1
   coins: 0
   selectedAbility: 0
   focalPoint: {fileID: 617879382}
@@ -702,6 +703,9 @@ MonoBehaviour:
     type: 3}
   healthBar: {fileID: 0}
   manaBar: {fileID: 0}
+  healthAmount: {fileID: 0}
+  manaAmount: {fileID: 0}
+  coinCounter: {fileID: 0}
   isTouchingGround: 1
   canDoubleJump: 0
   isInDecision: 0
@@ -2533,6 +2537,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 649289798}
+    - target: {fileID: 1918533490728928147, guid: 97a09bac018f73f458bbbb6d5b12fab0,
+        type: 3}
+      propertyPath: enemyHealth
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1918533490728928157, guid: 97a09bac018f73f458bbbb6d5b12fab0,
         type: 3}
       propertyPath: player

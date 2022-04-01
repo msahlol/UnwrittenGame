@@ -8,15 +8,14 @@ public class EnemyHandler : MonoBehaviour
     public float enemyDamage = 7.0f;
     public float enemySpeed = 1.0f;
 
-    public bool statusInflicted = false;
     public bool flameThrowerCooldown = false;
     public bool iceCloudCooldown = false;
 
-    public GameObject player;
-    public LayerMask groundMask;
-
     public float burnTime = 0.0f;
     public float freezeTime = 0.0f;
+
+    public GameObject player;
+    public LayerMask groundMask;
 
     private PlayerController pc;
     private Rigidbody rb;
@@ -286,7 +285,6 @@ public class EnemyHandler : MonoBehaviour
 
     private IEnumerator ApplyBurnDamage()
     {
-        statusInflicted = true;
         while (burnTime > 0)
         {
             burnTime -= 0.5f;
@@ -294,7 +292,6 @@ public class EnemyHandler : MonoBehaviour
             yield return wait;
             TakeDamage(2.0f);
         }
-        statusInflicted = false;
     }
 
     private void Freeze()
@@ -313,7 +310,6 @@ public class EnemyHandler : MonoBehaviour
     private IEnumerator ApplyFreezeEffect()
     {
         enemySpeed = 0.5f;
-        statusInflicted = true;
         while (freezeTime > 0)
         {
             freezeTime -= Time.deltaTime;

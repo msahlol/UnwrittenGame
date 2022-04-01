@@ -11,6 +11,14 @@ public class FlyingEnemyHandler : MonoBehaviour
     public GameObject player;
     public LayerMask groundMask;
 
+    public float enemySpeed = 1.0f;
+
+    public bool flameThrowerCooldown = false;
+    public bool iceCloudCooldown = false;
+
+    public float burnTime = 0.0f;
+    public float freezeTime = 0.0f;
+
     private PlayerController pc;
     private Rigidbody rb;
     private Rigidbody prb;
@@ -56,7 +64,7 @@ public class FlyingEnemyHandler : MonoBehaviour
             Quaternion angle = Quaternion.LookRotation(direction, Vector3.up);
 
             rb.rotation = angle;
-            rb.velocity = new Vector3(direction.x, direction.y, direction.z);
+            rb.velocity = new Vector3(direction.x, direction.y, direction.z) * enemySpeed;
 
             if (InAttackRadius(direction.normalized) && !attackCooldown)
             {
@@ -103,6 +111,100 @@ public class FlyingEnemyHandler : MonoBehaviour
             meleeCooldown = true;
             DealDamage();
             StartCoroutine(MeleeCooldown());
+        }
+    }
+
+    void OnTriggerStay(Collider collider)
+    {
+        print("In on trigger");
+        print(collider.gameObject.tag);
+        if (collider.gameObject.CompareTag("Aura"))
+        {
+            print("In Aura");
+            float effect = Random.Range(0.0f, 1.0f);
+            AbilityHandler ability = collider.gameObject.GetComponent<AbilityHandler>();
+            if ((ability.statusEffectChance * Time.deltaTime) >= effect)
+            {
+                if (ability.fire)
+                {
+                    Burn();
+                }
+                else
+                {
+                    Freeze();
+                }
+            }
+        }
+        else if (collider.gameObject.CompareTag("Attack"))
+        {
+            AbilityHandler ability = collider.gameObject.GetComponent<AbilityHandler>();
+            if (ability.fire && !flameThrowerCooldown)
+            {
+                TakeDamage(ability.damage);
+                StartCoroutine(FlameThrowerCooldown());
+            }
+            else if (!ability.fire)
+            {
+                TakeDamage(ability.damage);
+            }
+
+            float effect = Random.Range(0.0f, 1.0f);
+            if ((ability.statusEffectChance * Time.deltaTime) >= effect)
+            {
+                if (ability.fire)
+                {
+                    Burn();
+                }
+                else
+                {
+                    Freeze();
+                }
+            }
+        }
+        else if (collider.gameObject.CompareTag("Ultimate"))
+        {
+            float effect = Random.Range(0.0f, 1.0f);
+            AbilityHandler ability = collider.gameObject.GetComponent<AbilityHandler>();
+            if ((ability.statusEffectChance * Time.deltaTime) >= effect)
+            {
+                if (!ability.fire)
+                {
+                    Freeze();
+                }
+            }
+            if (!ability.fire && !iceCloudCooldown)
+            {
+                StartCoroutine(IceCloudCooldown());
+                TakeDamage(ability.damage);
+            }
+        }
+        else if (collider.gameObject.CompareTag("Projectile"))
+        {
+            float effect = Random.Range(0.0f, 1.0f);
+            AbilityHandler ability = collider.gameObject.GetComponent<AbilityHandler>();
+            if ((ability.statusEffectChance * Time.deltaTime) >= effect)
+            {
+                if (ability.fire)
+                {
+                    Burn();
+                }
+                else
+                {
+                    Freeze();
+                }
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Ultimate"))
+        {
+            AbilityHandler ability = collider.gameObject.GetComponent<AbilityHandler>();
+            if (ability.fire)
+            {
+                TakeDamage(ability.damage);
+            }
         }
     }
 
@@ -177,5 +279,70 @@ public class FlyingEnemyHandler : MonoBehaviour
         Instantiate(coinPrefab, new Vector3(transform.position.x, hit.transform.position.y + 1.5f, transform.position.z + 1.5f), Quaternion.identity * Quaternion.Euler(90, 0, 0));
         Instantiate(coinPrefab, new Vector3(transform.position.x + 1.0f, hit.transform.position.y + 1.5f, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 45, 0));
         Instantiate(coinPrefab, new Vector3(transform.position.x - 1.0f, hit.transform.position.y + 1.5f, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 135, 0));
+    }
+
+    private IEnumerator FlameThrowerCooldown()
+    {
+        flameThrowerCooldown = true;
+        WaitForSeconds wait = new WaitForSeconds(0.5f);
+        yield return wait;
+        flameThrowerCooldown = false;
+    }
+
+    private IEnumerator IceCloudCooldown()
+    {
+        iceCloudCooldown = true;
+        WaitForSeconds wait = new WaitForSeconds(0.5f);
+        yield return wait;
+        iceCloudCooldown = false;
+    }
+
+    private void Burn()
+    {
+        print("In burn");
+        if (burnTime <= 0f)
+        {
+            burnTime = 5.0f;
+            StartCoroutine(ApplyBurnDamage());
+        }
+        else
+        {
+            burnTime = 5.0f;
+        }
+    }
+
+    private IEnumerator ApplyBurnDamage()
+    {
+        while (burnTime > 0)
+        {
+            burnTime -= 0.5f;
+            WaitForSeconds wait = new WaitForSeconds(0.5f);
+            yield return wait;
+            TakeDamage(2.0f);
+        }
+    }
+
+    private void Freeze()
+    {
+        if (freezeTime <= 0f)
+        {
+            freezeTime = 5.0f;
+            StartCoroutine(ApplyFreezeEffect());
+        }
+        else
+        {
+            freezeTime = 5.0f;
+        }
+    }
+
+    private IEnumerator ApplyFreezeEffect()
+    {
+        enemySpeed = 0.5f;
+        while (freezeTime > 0)
+        {
+            freezeTime -= Time.deltaTime;
+            yield return null;
+        }
+        enemySpeed = 1.0f;
     }
 }
