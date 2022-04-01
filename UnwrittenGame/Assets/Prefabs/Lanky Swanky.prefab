@@ -817,9 +817,9 @@ MonoBehaviour:
   spawnLocation: {x: 0, y: 0, z: 0}
   attackAngleOffset: 15
   followBuffer: 3
-  enemyAttackPrefab: {fileID: 3312957810480723768, guid: 3cc4e739574a8cb4bb5ae35742f0af53,
+  enemyAttackPrefab: {fileID: 5506214174028365539, guid: cbc6cf16efc872848b4b61dad7fb2e48,
     type: 3}
-  enemyAttackContactPrefab: {fileID: 3976420675745479284, guid: 13f021ca8a70dfc4d8ac9e6ee54c553d,
+  enemyAttackContactPrefab: {fileID: 156841740926632262, guid: f4952e9f40f3476429d02a6a419c9c84,
     type: 3}
   coinPrefab: {fileID: 4466174813210906087, guid: 92e950b8bc43dc3438c67906b5c909b1,
     type: 3}

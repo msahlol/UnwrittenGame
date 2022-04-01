@@ -61,12 +61,10 @@ public class EnemyHandler : MonoBehaviour
 
             if (InAttackRadius(direction.normalized) && !attackCooldown)
             {
-                float attackOffset = Vector3.Angle(direction, transform.forward) + attackAngleOffset;
-                var axisOffset = Quaternion.AngleAxis(attackOffset, Vector3.up);
 
-                GameObject attack = Instantiate(enemyAttackPrefab, transform.position + transform.forward + transform.up - transform.right, transform.rotation);
-                Instantiate(enemyAttackContactPrefab, transform.position + transform.forward + transform.up - transform.right, transform.rotation);
-                attack.GetComponent<EnemyAttackHandler>().direction = axisOffset * transform.forward;
+                GameObject attack = Instantiate(enemyAttackPrefab, transform.position + transform.forward, transform.rotation * Quaternion.Euler(new Vector3(0, -90, 0)));
+                Instantiate(enemyAttackContactPrefab, transform.position + transform.forward, transform.rotation);
+                attack.GetComponent<EnemyAttackHandler>().direction = transform.forward;
                 attackCooldown = true;
                 StartCoroutine(AttackCooldown());
             }
