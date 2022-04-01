@@ -65,7 +65,7 @@ GameObject:
   - component: {fileID: 8742833915648586745}
   - component: {fileID: 8742833915648586744}
   - component: {fileID: 8742833915648586751}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: StoryProgressionTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
