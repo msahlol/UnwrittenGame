@@ -105,13 +105,13 @@ public class PlayerAbilities : MonoBehaviour
                 if (element.Equals("Fire"))
                 {
                     GameObject fireAura = Instantiate(fireAuraPrefab, transform.position - transform.up, Quaternion.Euler(new Vector3(90, 0, 0)));
-                    fireAura.transform.parent = transform;
+                    fireAura.gameObject.GetComponent<FollowPlayer>().player = gameObject;
                     StartCoroutine(CastAuraSpell(abilityIndex, fireAura));
                 }
                 if (element.Equals("Ice"))
                 {
                     GameObject iceAura = Instantiate(iceAuraPrefab, transform.position - transform.up, Quaternion.Euler(new Vector3(90, 0, 0)));
-                    iceAura.transform.parent = transform;
+                    iceAura.gameObject.GetComponent<FollowPlayer>().player = gameObject;
                     StartCoroutine(CastAuraSpell(abilityIndex, iceAura));
                 }
             }

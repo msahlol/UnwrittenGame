@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 819065301188270039}
   - component: {fileID: 687953570569338343}
   - component: {fileID: 687877592349797453}
+  - component: {fileID: 3805639985583853767}
+  - component: {fileID: 3534555803816414260}
   m_Layer: 0
   m_Name: Flame Thrower
-  m_TagString: Untagged
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4825,3 +4827,36 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &3805639985583853767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813006219655169957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9c55fb3d656ac429b593538413d510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Flamethrower
+  description: Short-range attack the conjures a stream of fire at enemies
+  damage: 5
+  abilityDuration: 10
+  cooldownTime: 2
+  manaCost: 25
+  statusEffectChance: 0.25
+  fire: 1
+--- !u!65 &3534555803816414260
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813006219655169957}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1284592, y: 1.7391559, z: 14.1471405}
+  m_Center: {x: 0.08533851, y: 0.13758753, z: 7.2054725}

@@ -152,9 +152,10 @@ GameObject:
   - component: {fileID: 1561087496553800985}
   - component: {fileID: 4450669206842646911}
   - component: {fileID: 1124133622303549030}
+  - component: {fileID: 8607695401003710753}
   m_Layer: 0
   m_Name: Ice Sniper
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -272,6 +273,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &8607695401003710753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992111788246728062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9c55fb3d656ac429b593538413d510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Frost Lance
+  description: Long-range sniper attack that fires a sharp lance of ice at enemies
+  damage: 15
+  abilityDuration: 1
+  cooldownTime: 3
+  manaCost: 25
+  statusEffectChance: 0.25
 --- !u!1 &8377217106919779966
 GameObject:
   m_ObjectHideFlags: 0

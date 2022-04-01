@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 92434939283651386}
   - component: {fileID: 8387791586681264461}
   - component: {fileID: 3749020510060658715}
-  - component: {fileID: 2493216029735171115}
+  - component: {fileID: 110346611790234604}
+  - component: {fileID: 2808835082865363353}
   m_Layer: 0
   m_Name: Sword
-  m_TagString: Untagged
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2493216029735171115
+--- !u!65 &110346611790234604
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,11 +92,31 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 473801372364432379}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 14.006163, z: 1}
+  m_Center: {x: 0, y: 0.34891427, z: 0}
+--- !u!114 &2808835082865363353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473801372364432379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9c55fb3d656ac429b593538413d510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Ice Blade
+  description: Basic attack that swings a sword of ice at enemies
+  damage: 5
+  abilityDuration: 0.35
+  cooldownTime: 0.5
+  manaCost: 5
+  statusEffectChance: 0
+  fire: 0
 --- !u!1 &8481505250329926563
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,9 +264,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3097001225581414828}
+  - component: {fileID: 2621113835371336648}
   m_Layer: 0
   m_Name: Ice Sword
-  m_TagString: Untagged
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -265,3 +287,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2621113835371336648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8960097296463750140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9c55fb3d656ac429b593538413d510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Ice Blade
+  description: Basic attack that swings a sword of ice at enemies
+  damage: 5
+  abilityDuration: 0.35
+  cooldownTime: 0.5
+  manaCost: 5
+  statusEffectChance: 0
+  fire: 0

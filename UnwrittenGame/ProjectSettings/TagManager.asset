@@ -11,6 +11,12 @@ TagManager:
   - Ground
   - EnemyAttack
   - FlyingEnemy
+  - Health
+  - Mana
+  - Decision
+  - Attack
+  - Aura
+  - Ultimate
   layers:
   - Default
   - TransparentFX

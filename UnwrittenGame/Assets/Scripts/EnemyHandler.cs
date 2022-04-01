@@ -6,8 +6,17 @@ public class EnemyHandler : MonoBehaviour
 {
     public float enemyHealth = 10.0f;
     public float enemyDamage = 7.0f;
+    public float enemySpeed = 1.0f;
+
+    public bool statusInflicted = false;
+    public bool flameThrowerCooldown = false;
+    public bool iceCloudCooldown = false;
+
     public GameObject player;
     public LayerMask groundMask;
+
+    public float burnTime = 0.0f;
+    public float freezeTime = 0.0f;
 
     private PlayerController pc;
     private Rigidbody rb;
@@ -49,7 +58,7 @@ public class EnemyHandler : MonoBehaviour
 
             rb.rotation = angle;
             if(direction.sqrMagnitude > followBuffer * followBuffer)
-                rb.velocity = new Vector3(direction.x, 0, direction.z);
+                rb.velocity = new Vector3(direction.x, 0, direction.z) * enemySpeed;
 
             if (InAttackRadius(direction.normalized) && !attackCooldown)
             {
@@ -94,6 +103,100 @@ public class EnemyHandler : MonoBehaviour
         DealDamage();
     }
 
+    void OnTriggerStay(Collider collider)
+    {
+        print("In on trigger");
+        print(collider.gameObject.tag);
+        if (collider.gameObject.CompareTag("Aura"))
+        {
+            print("In Aura");
+            float effect = Random.Range(0.0f, 1.0f);
+            AbilityHandler ability = collider.gameObject.GetComponent<AbilityHandler>();
+            if ((ability.statusEffectChance * Time.deltaTime) >= effect)
+            {
+                if (ability.fire)
+                {
+                    Burn();
+                }
+                else
+                {
+                    Freeze();
+                }
+            }
+        }
+        else if (collider.gameObject.CompareTag("Attack"))
+        {
+            AbilityHandler ability = collider.gameObject.GetComponent<AbilityHandler>();
+            if (ability.fire && !flameThrowerCooldown)
+            {
+                TakeDamage(ability.damage);
+                StartCoroutine(FlameThrowerCooldown());
+            }
+            else if (!ability.fire)
+            {
+                TakeDamage(ability.damage);
+            }
+
+            float effect = Random.Range(0.0f, 1.0f);
+            if ((ability.statusEffectChance * Time.deltaTime) >= effect)
+            {
+                if (ability.fire)
+                {
+                    Burn();
+                }
+                else
+                {
+                    Freeze();
+                }
+            }
+        }
+        else if (collider.gameObject.CompareTag("Ultimate"))
+        {
+            float effect = Random.Range(0.0f, 1.0f);
+            AbilityHandler ability = collider.gameObject.GetComponent<AbilityHandler>();
+            if ((ability.statusEffectChance * Time.deltaTime) >= effect)
+            {
+                if (!ability.fire)
+                {
+                    Freeze();
+                }
+            }
+            if (!ability.fire && !iceCloudCooldown)
+            {
+                StartCoroutine(IceCloudCooldown());
+                TakeDamage(ability.damage);
+            }
+        }
+        else if (collider.gameObject.CompareTag("Projectile"))
+        {
+            float effect = Random.Range(0.0f, 1.0f);
+            AbilityHandler ability = collider.gameObject.GetComponent<AbilityHandler>();
+            if ((ability.statusEffectChance * Time.deltaTime) >= effect)
+            {
+                if (ability.fire)
+                {
+                    Burn();
+                }
+                else
+                {
+                    Freeze();
+                }
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Ultimate"))
+        {
+            AbilityHandler ability = collider.gameObject.GetComponent<AbilityHandler>();
+            if (ability.fire)
+            {
+                TakeDamage(ability.damage);
+            }
+        }
+    }
+
     bool InAttackRadius(Vector3 directionToTarget)
     {
         return Vector3.Angle(transform.forward, directionToTarget) < attackAngle / 2;
@@ -117,8 +220,6 @@ public class EnemyHandler : MonoBehaviour
         yield return wait;
         Vector3 spawnDirection = spawnLocation - transform.position;
         LookAt2D(spawnDirection);
-        //rb.velocity = spawnDirection;
-        //GoToSpawn();
     }
 
     private void FollowPlayer()
@@ -151,5 +252,73 @@ public class EnemyHandler : MonoBehaviour
         Instantiate(coinPrefab, new Vector3(transform.position.x, hit.transform.position.y + 1.5f, transform.position.z + 1.5f), Quaternion.identity * Quaternion.Euler(90, 0, 0));
         Instantiate(coinPrefab, new Vector3(transform.position.x + 1.0f, hit.transform.position.y + 1.5f, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 45, 0));
         Instantiate(coinPrefab, new Vector3(transform.position.x - 1.0f, hit.transform.position.y + 1.5f, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 135, 0));
+    }
+
+    private IEnumerator FlameThrowerCooldown()
+    {
+        flameThrowerCooldown = true;
+        WaitForSeconds wait = new WaitForSeconds(0.5f);
+        yield return wait;
+        flameThrowerCooldown = false;
+    }
+
+    private IEnumerator IceCloudCooldown()
+    {
+        iceCloudCooldown = true;
+        WaitForSeconds wait = new WaitForSeconds(0.5f);
+        yield return wait;
+        iceCloudCooldown = false;
+    }
+
+    private void Burn()
+    {
+        print("In burn");
+        if(burnTime <= 0f)
+        {
+            burnTime = 5.0f;
+            StartCoroutine(ApplyBurnDamage());
+        }
+        else
+        {
+            burnTime = 5.0f;
+        }
+    }
+
+    private IEnumerator ApplyBurnDamage()
+    {
+        statusInflicted = true;
+        while (burnTime > 0)
+        {
+            burnTime -= 0.5f;
+            WaitForSeconds wait = new WaitForSeconds(0.5f);
+            yield return wait;
+            TakeDamage(2.0f);
+        }
+        statusInflicted = false;
+    }
+
+    private void Freeze()
+    {
+        if (freezeTime <= 0f)
+        {
+            freezeTime = 5.0f;
+            StartCoroutine(ApplyFreezeEffect());
+        }
+        else
+        {
+            freezeTime = 5.0f;
+        }
+    }
+
+    private IEnumerator ApplyFreezeEffect()
+    {
+        enemySpeed = 0.5f;
+        statusInflicted = true;
+        while (freezeTime > 0)
+        {
+            freezeTime -= Time.deltaTime;
+            yield return null;
+        }
+        enemySpeed = 1.0f;
     }
 }
