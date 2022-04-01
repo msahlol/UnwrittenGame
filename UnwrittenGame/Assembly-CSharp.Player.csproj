@@ -57,6 +57,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CoinValue.cs" />
+    <Compile Include="Assets\Scripts\HealthValue.cs" />
+    <Compile Include="Assets\Scripts\Healthbar.cs" />
     <Compile Include="Assets\Scripts\ProjectileHandler.cs" />
     <Compile Include="Assets\Shared\Scripts\ProximityActivate.cs" />
     <Compile Include="Assets\Scripts\Decisions\StartingAbilityDecision.cs" />
@@ -66,18 +68,18 @@
     <Compile Include="Assets\Scripts\SimpleCameraController.cs" />
     <Compile Include="Assets\Shared\Scripts\SimpleCharacterMotor.cs" />
     <Compile Include="Assets\Scripts\EnemyHandler.cs" />
+    <Compile Include="Assets\Scripts\AbilityHandler.cs" />
     <Compile Include="Assets\Scripts\FieldOfView.cs" />
+    <Compile Include="Assets\Scripts\Manabar.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\MenuHandler.cs" />
     <Compile Include="Assets\Shared\Scripts\AdjustTimeScale.cs" />
     <Compile Include="Assets\Scripts\ObjectHover.cs" />
     <Compile Include="Assets\Scripts\ObjectRotate.cs" />
     <Compile Include="Assets\EffectExamples\Misc Effects\Scripts\SpawnEffect.cs" />
+    <Compile Include="Assets\Scripts\FollowPlayer.cs" />
     <Compile Include="Assets\Scripts\EnemyAttackHandler.cs" />
     <Compile Include="Assets\Scripts\PlayerAbilities.cs" />
-    <Compile Include="Assets\Scripts\Manabar.cs" />
-    <Compile Include="Assets\Scripts\Healthbar.cs" />
-    <Compile Include="Assets\Scripts\HealthValue.cs" />
     <Compile Include="Assets\Scripts\ManaValue.cs" />
   </ItemGroup>
   <ItemGroup>

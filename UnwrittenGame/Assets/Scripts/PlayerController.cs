@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public float health = 100.0f;
     public float maxMana = 100.0f;
     public float mana = 100.0f;
+    public float manaRegen = 1.0f;
     public int coins = 0;
     public int selectedAbility = 0;
     public GameObject focalPoint;
@@ -21,6 +23,10 @@ public class PlayerController : MonoBehaviour
     public GameObject projectileBurstPrefab;
     public Healthbar healthBar;
     public Manabar manaBar;
+    public TextMeshProUGUI healthAmount;
+    public TextMeshProUGUI manaAmount;
+    public TextMeshProUGUI coinCounter;
+    
     public bool isTouchingGround = true;
     public bool canDoubleJump = false;
     public bool isInDecision = false;
@@ -152,6 +158,13 @@ public class PlayerController : MonoBehaviour
             rb.velocity = Quaternion.Euler(0, focalPoint.transform.rotation.eulerAngles.y, 0) * new Vector3(direction.normalized.x * speed, rb.velocity.y, direction.normalized.y * speed);
             focalPoint.transform.position = transform.position;
         }
+
+        mana = Mathf.Min(maxMana, mana + manaRegen * Time.deltaTime); 
+        manaBar.SetMana(mana);
+
+        coinCounter.text = "X " + coins;
+        healthAmount.text = "" + (int)health;
+        manaAmount.text = "" + (int)mana;
     }
 
     void FireProjectile()
