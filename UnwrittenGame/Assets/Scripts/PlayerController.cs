@@ -31,6 +31,12 @@ public class PlayerController : MonoBehaviour
     public bool canDoubleJump = false;
     public bool isInDecision = false;
 
+    public ParticleSystem fireJump;
+    public ParticleSystem fireTrail;
+
+    public ParticleSystem iceJump;
+    public ParticleSystem iceTrail;
+
 
     private Rigidbody rb;
     private MenuHandler menuHandler;
@@ -46,8 +52,10 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-        sprintTrail = transform.Find("Trail").GetComponent<ParticleSystem>();
-        jumpBurstPrefab = transform.Find("Jump Burst").GetComponent<ParticleSystem>();
+        fireTrail = transform.Find("Fire Trail").GetComponent<ParticleSystem>();
+        iceTrail = transform.Find("Ice Trail").GetComponent<ParticleSystem>();
+        fireJump = transform.Find("Fire Jump Burst").GetComponent<ParticleSystem>();
+        iceJump = transform.Find("Ice Jump Burst").GetComponent<ParticleSystem>();
         menuHandler = gameObject.GetComponent<MenuHandler>();
         abilityHandler = gameObject.GetComponent<PlayerAbilities>();
         Cursor.lockState = CursorLockMode.Locked;
@@ -57,6 +65,9 @@ public class PlayerController : MonoBehaviour
 
         manaBar.SetMaxMana(maxMana);
         manaBar.SetMana(mana);
+
+        sprintTrail = fireTrail;
+        jumpBurstPrefab = fireJump;
     }
 
     // Update is called once per frame
@@ -262,5 +273,19 @@ public class PlayerController : MonoBehaviour
         {
             other.gameObject.transform.Find("Decision Menu").gameObject.SetActive(false);
         }
+    }
+
+    public void SetMovementPrefabsFire()
+    {
+        sprintTrail.Stop();
+        sprintTrail = fireTrail;
+        jumpBurstPrefab = fireJump;
+    }
+
+    public void SetMovementPrefabsIce()
+    {
+        sprintTrail.Stop();
+        sprintTrail = iceTrail;
+        jumpBurstPrefab = iceJump;
     }
 }

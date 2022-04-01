@@ -102,11 +102,8 @@ public class EnemyHandler : MonoBehaviour
 
     void OnTriggerStay(Collider collider)
     {
-        print("In on trigger");
-        print(collider.gameObject.tag);
         if (collider.gameObject.CompareTag("Aura"))
         {
-            print("In Aura");
             float effect = Random.Range(0.0f, 1.0f);
             AbilityHandler ability = collider.gameObject.GetComponent<AbilityHandler>();
             if ((ability.statusEffectChance * Time.deltaTime) >= effect)
@@ -269,7 +266,6 @@ public class EnemyHandler : MonoBehaviour
 
     private void Burn()
     {
-        print("In burn");
         if(burnTime <= 0f)
         {
             burnTime = 5.0f;

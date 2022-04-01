@@ -7,6 +7,12 @@ public class StartingAbilityDecision : MonoBehaviour
     public GameObject player;
     public GameObject decisionMenu;
 
+    public ParticleSystem fireJump;
+    public ParticleSystem fireTrail;
+
+    public ParticleSystem iceJump;
+    public ParticleSystem iceTrail;
+
     public void ChooseFire()
     {
         player.GetComponent<PlayerAbilities>().abilityList.Clear();
@@ -48,6 +54,8 @@ public class StartingAbilityDecision : MonoBehaviour
         ));
 
         player.GetComponent<PlayerAbilities>().element = "Fire";
+
+        player.GetComponent<PlayerController>().SetMovementPrefabsFire();
 
         EndDecision();
     }
@@ -94,6 +102,8 @@ public class StartingAbilityDecision : MonoBehaviour
         ));
 
         player.GetComponent<PlayerAbilities>().element = "Ice";
+
+        player.GetComponent<PlayerController>().SetMovementPrefabsIce();
 
         EndDecision();
     }
