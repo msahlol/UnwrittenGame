@@ -105,7 +105,7 @@ public class FlyingEnemyHandler : MonoBehaviour
 
     public void DealDamage()
     {
-        pc.health -= enemyDamage;
+        pc.TakeDamage(enemyDamage);
     }
 
     void OnCollisionEnter(Collision collision)

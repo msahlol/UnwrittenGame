@@ -162,8 +162,10 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 512
-  burnEffect: {fileID: 0}
-  freezeEffect: {fileID: 0}
+  burnEffect: {fileID: 5637662781171745723, guid: a996c4cc87ef9a84a82a1e00fd238401,
+    type: 3}
+  freezeEffect: {fileID: 2060351528249729158, guid: df278069e995b574b9bf8ad805c22ba9,
+    type: 3}
   enemySpeed: 1
   flameThrowerCooldown: 0
   iceCloudCooldown: 0
@@ -180,8 +182,10 @@ MonoBehaviour:
     type: 3}
   coinPrefab: {fileID: 4466174813210906087, guid: 92e950b8bc43dc3438c67906b5c909b1,
     type: 3}
-  healthPrefab: {fileID: 0}
-  manaPrefab: {fileID: 0}
+  healthPrefab: {fileID: 3801973919817116586, guid: f32328ffee6db2040ab180c154a2c82d,
+    type: 3}
+  manaPrefab: {fileID: 6854692767553000023, guid: ae5b20ec48b1c234281559305947fa73,
+    type: 3}
 --- !u!1 &3930570310208738198
 GameObject:
   m_ObjectHideFlags: 0

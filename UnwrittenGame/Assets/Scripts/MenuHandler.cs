@@ -12,7 +12,15 @@ public class MenuHandler : MonoBehaviour
     public void UpdateSelectedAbility(int abilityIndex)
     {
         Debug.Log(abilityIndex);
-        hud.transform.Find("Ability Select").GetComponent<TextMeshProUGUI>().text = (abilityIndex + 1).ToString();
+        hud.transform.Find("Ability Select").GetComponent<TextMeshProUGUI>().text = gameObject.GetComponent<PlayerAbilities>().abilityList[abilityIndex].name;
+        if (gameObject.GetComponent<PlayerAbilities>().abilityList[abilityIndex].isOffCooldown)
+        {
+            hud.transform.Find("Ability Select").GetComponent<TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
+        }
+        else
+        {
+            hud.transform.Find("Ability Select").GetComponent<TextMeshProUGUI>().color = new Color32(171, 156, 156, 255);
+        }
     }
 
     public void PauseGame()

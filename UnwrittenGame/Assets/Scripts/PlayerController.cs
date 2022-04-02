@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float maxMana = 100.0f;
     public float mana = 100.0f;
     public float manaRegen = 1.0f;
+    public float invcibilityTime = 0.5f;
     public int coins = 0;
     public int selectedAbility = 0;
     public GameObject focalPoint;
@@ -47,6 +48,7 @@ public class PlayerController : MonoBehaviour
     private float maxCameraAngle = 60.0f;
     private float xRotation = 0.0f;
     private float yRotation = 0.0f;
+    private bool canTakeDamage = true;
 
     // Start is called before the first frame update
     void Start()
@@ -128,29 +130,32 @@ public class PlayerController : MonoBehaviour
                 //FireProjectile();
                 abilityHandler.UseAbility(selectedAbility);
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (gameObject.GetComponent<PlayerAbilities>().abilityList.Count > 0)
             {
-                //if (abilityHandler.abilityList[0].isUnlocked)
-                selectedAbility = 0;
-                menuHandler.UpdateSelectedAbility(selectedAbility);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                //if (abilityHandler.abilityList[1].isUnlocked)
-                selectedAbility = 1;
-                menuHandler.UpdateSelectedAbility(selectedAbility);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                //if (abilityHandler.abilityList[2].isUnlocked)
-                selectedAbility = 2;
-                menuHandler.UpdateSelectedAbility(selectedAbility);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                //if (abilityHandler.abilityList[3].isUnlocked)
-                selectedAbility = 3;
-                menuHandler.UpdateSelectedAbility(selectedAbility);
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    //if (abilityHandler.abilityList[0].isUnlocked)
+                    selectedAbility = 0;
+                    menuHandler.UpdateSelectedAbility(selectedAbility);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    //if (abilityHandler.abilityList[1].isUnlocked)
+                    selectedAbility = 1;
+                    menuHandler.UpdateSelectedAbility(selectedAbility);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    //if (abilityHandler.abilityList[2].isUnlocked)
+                    selectedAbility = 2;
+                    menuHandler.UpdateSelectedAbility(selectedAbility);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    //if (abilityHandler.abilityList[3].isUnlocked)
+                    selectedAbility = 3;
+                    menuHandler.UpdateSelectedAbility(selectedAbility);
+                }
             }
 
             float horizontalInput = Input.GetAxis("Horizontal");
@@ -173,9 +178,11 @@ public class PlayerController : MonoBehaviour
         mana = Mathf.Min(maxMana, mana + manaRegen * Time.deltaTime); 
         manaBar.SetMana(mana);
 
-        coinCounter.text = "X " + coins;
+        coinCounter.text = "" + coins;
         healthAmount.text = "" + (int)health;
+        healthBar.SetHealth(health);
         manaAmount.text = "" + (int)mana;
+        manaBar.SetMana(mana);
     }
 
     void FireProjectile()
@@ -202,12 +209,12 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("EnemyAttack"))
         {
-            health -= collision.gameObject.GetComponent<EnemyAttackHandler>().projectileDamage;
+            TakeDamage(collision.gameObject.GetComponent<EnemyAttackHandler>().projectileDamage);
         }
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            health -= collision.gameObject.GetComponent<EnemyHandler>().enemyDamage;
+            TakeDamage(collision.gameObject.GetComponent<EnemyHandler>().enemyDamage);
         }
     }
 
@@ -265,6 +272,13 @@ public class PlayerController : MonoBehaviour
             other.gameObject.SetActive(false);
             manaBar.SetMana(mana);
         }
+
+        if (other.gameObject.CompareTag("EndGame"))
+        {
+            other.GetComponent<EndGame>().endGameScreen.SetActive(true);
+            Time.timeScale = 0.0f;
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -287,5 +301,21 @@ public class PlayerController : MonoBehaviour
         sprintTrail.Stop();
         sprintTrail = iceTrail;
         jumpBurstPrefab = iceJump;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (canTakeDamage)
+        {
+            health -= damage;
+            canTakeDamage = false;
+            StartCoroutine(InvincibilityFrames(invcibilityTime));
+        }
+    }
+
+    private IEnumerator InvincibilityFrames(float invincibilityTime)
+    {
+        yield return new WaitForSeconds(invcibilityTime);
+        canTakeDamage = true;
     }
 }

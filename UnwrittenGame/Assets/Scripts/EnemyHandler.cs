@@ -98,12 +98,7 @@ public class EnemyHandler : MonoBehaviour
 
     public void DealDamage()
     {
-        pc.health -= enemyDamage;
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        DealDamage();
+        pc.TakeDamage(enemyDamage);
     }
 
     void OnTriggerStay(Collider collider)

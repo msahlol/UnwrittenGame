@@ -68,7 +68,7 @@ public class StartingAbilityDecision : MonoBehaviour
             "Basic attack that swings a sword of ice at enemies",
             5.0f,
             0.35f,
-            0.5f,
+            0.2f,
             5.0f,
             0.0f,
             true
@@ -112,8 +112,10 @@ public class StartingAbilityDecision : MonoBehaviour
     {
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
+        player.gameObject.GetComponent<PlayerController>().selectedAbility = 0;
+        player.gameObject.GetComponent<MenuHandler>().UpdateSelectedAbility(0);
         player.gameObject.GetComponent<PlayerController>().isInDecision = false;
         decisionMenu.SetActive(false);
-        //gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }

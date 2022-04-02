@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [System.Serializable]
 public class Ability
@@ -62,7 +63,7 @@ public class PlayerAbilities : MonoBehaviour
                 if (element.Equals("Ice"))
                 {
                     GameObject iceSword = Instantiate(iceSwordPrefab, transform.position + transform.up, transform.rotation);
-                    iceSword.transform.parent = transform;
+                    iceSword.gameObject.GetComponent<FollowPlayer>().player = gameObject;
                     StartCoroutine(CastMeleeSpell(abilityIndex, iceSword));
                 }
                 abilityList[abilityIndex].isOffCooldown = false;
@@ -106,12 +107,14 @@ public class PlayerAbilities : MonoBehaviour
                 {
                     GameObject fireAura = Instantiate(fireAuraPrefab, transform.position - transform.up, Quaternion.Euler(new Vector3(90, 0, 0)));
                     fireAura.gameObject.GetComponent<FollowPlayer>().player = gameObject;
+                    fireAura.gameObject.GetComponent<FollowPlayer>().offset = new Vector3(0, -1, 0);
                     StartCoroutine(CastAuraSpell(abilityIndex, fireAura));
                 }
                 if (element.Equals("Ice"))
                 {
                     GameObject iceAura = Instantiate(iceAuraPrefab, transform.position - transform.up, Quaternion.Euler(new Vector3(90, 0, 0)));
                     iceAura.gameObject.GetComponent<FollowPlayer>().player = gameObject;
+                    iceAura.gameObject.GetComponent<FollowPlayer>().offset = new Vector3(0, -1, 0);
                     StartCoroutine(CastAuraSpell(abilityIndex, iceAura));
                 }
             }
@@ -128,8 +131,6 @@ public class PlayerAbilities : MonoBehaviour
             yield return null;
         }
         Destroy(prefab);
-        abilityList[abilityIndex].isOffCooldown = false;
-        StartCoroutine(CooldownRoutine(abilityIndex));
     }
 
     IEnumerator CastHoldableSpell(int abilityIndex, GameObject prefab)
@@ -189,7 +190,12 @@ public class PlayerAbilities : MonoBehaviour
 
     IEnumerator CooldownRoutine(int abilityIndex)
     {
+        gameObject.GetComponent<MenuHandler>().hud.transform.Find("Ability Select").GetComponent<TextMeshProUGUI>().color = new Color32(171, 156, 156, 255);
         yield return new WaitForSeconds(abilityList[abilityIndex].cooldownTime);
         abilityList[abilityIndex].isOffCooldown = true;
+        if (gameObject.GetComponent<PlayerController>().selectedAbility == abilityIndex)
+        {
+            gameObject.GetComponent<MenuHandler>().hud.transform.Find("Ability Select").GetComponent<TextMeshProUGUI>().color = new Color32(255, 255, 255, 255);
+        }
     }
 }
