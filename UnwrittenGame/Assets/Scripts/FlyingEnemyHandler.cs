@@ -11,6 +11,9 @@ public class FlyingEnemyHandler : MonoBehaviour
     public GameObject player;
     public LayerMask groundMask;
 
+    public ParticleSystem burnEffect;
+    public ParticleSystem freezeEffect;
+
     public float enemySpeed = 1.0f;
 
     public bool flameThrowerCooldown = false;
@@ -43,6 +46,8 @@ public class FlyingEnemyHandler : MonoBehaviour
     public GameObject enemyAttackContactPrefab;
 
     public GameObject coinPrefab;
+    public GameObject healthPrefab;
+    public GameObject manaPrefab;
 
 
     void Start()
@@ -272,9 +277,11 @@ public class FlyingEnemyHandler : MonoBehaviour
         RaycastHit hit;
         Physics.Raycast(transform.position, -Vector3.up, out hit, groundMask);
 
-        Instantiate(coinPrefab, new Vector3(transform.position.x, hit.transform.position.y + 1.5f, transform.position.z + 1.5f), Quaternion.identity * Quaternion.Euler(90, 0, 0));
-        Instantiate(coinPrefab, new Vector3(transform.position.x + 1.0f, hit.transform.position.y + 1.5f, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 45, 0));
-        Instantiate(coinPrefab, new Vector3(transform.position.x - 1.0f, hit.transform.position.y + 1.5f, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 135, 0));
+        Instantiate(manaPrefab, new Vector3(transform.position.x - 1.0f, transform.position.y, transform.position.z + 3f), Quaternion.identity * Quaternion.Euler(90, 0, 0));
+        Instantiate(healthPrefab, new Vector3(transform.position.x + 1.0f, transform.position.y, transform.position.z + 3f), Quaternion.identity * Quaternion.Euler(90, 45, 0));
+        Instantiate(coinPrefab, new Vector3(transform.position.x, hit.transform.position.y, transform.position.z + 1.5f), Quaternion.identity * Quaternion.Euler(90, 0, 0));
+        Instantiate(coinPrefab, new Vector3(transform.position.x + 1.0f, hit.transform.position.y, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 45, 0));
+        Instantiate(coinPrefab, new Vector3(transform.position.x - 1.0f, hit.transform.position.y, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 135, 0));
     }
 
     private IEnumerator FlameThrowerCooldown()
@@ -310,6 +317,7 @@ public class FlyingEnemyHandler : MonoBehaviour
     {
         while (burnTime > 0)
         {
+            burnEffect.Play();
             burnTime -= 0.5f;
             WaitForSeconds wait = new WaitForSeconds(0.5f);
             yield return wait;
@@ -335,8 +343,10 @@ public class FlyingEnemyHandler : MonoBehaviour
         enemySpeed = 0.5f;
         while (freezeTime > 0)
         {
-            freezeTime -= Time.deltaTime;
-            yield return null;
+            freezeEffect.Play();
+            freezeTime -= 0.5f;
+            WaitForSeconds wait = new WaitForSeconds(0.5f);
+            yield return wait;
         }
         enemySpeed = 1.0f;
     }

@@ -14,6 +14,9 @@ public class EnemyHandler : MonoBehaviour
     public float burnTime = 0.0f;
     public float freezeTime = 0.0f;
 
+    public ParticleSystem burnEffect;
+    public ParticleSystem freezeEffect;
+
     public GameObject player;
     public LayerMask groundMask;
 
@@ -36,10 +39,13 @@ public class EnemyHandler : MonoBehaviour
     public GameObject enemyAttackContactPrefab;
 
     public GameObject coinPrefab;
+    public GameObject healthPrefab;
+    public GameObject manaPrefab;
 
 
     void Start()
     {
+        burnEffect = transform.Find("EnemyBurnEffect").GetComponent<ParticleSystem>();
         fieldOfView = gameObject.GetComponent<FieldOfView>();
         rb = gameObject.GetComponent<Rigidbody>();
         pc = player.gameObject.GetComponent<PlayerController>();
@@ -243,9 +249,11 @@ public class EnemyHandler : MonoBehaviour
         RaycastHit hit;
         Physics.Raycast(transform.position, -Vector3.up, out hit, groundMask);
 
-        Instantiate(coinPrefab, new Vector3(transform.position.x, hit.transform.position.y + 1.5f, transform.position.z + 1.5f), Quaternion.identity * Quaternion.Euler(90, 0, 0));
-        Instantiate(coinPrefab, new Vector3(transform.position.x + 1.0f, hit.transform.position.y + 1.5f, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 45, 0));
-        Instantiate(coinPrefab, new Vector3(transform.position.x - 1.0f, hit.transform.position.y + 1.5f, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 135, 0));
+        Instantiate(manaPrefab, new Vector3(transform.position.x - 1.0f, transform.position.y, transform.position.z + 3f), Quaternion.identity * Quaternion.Euler(90, 0, 0));
+        Instantiate(healthPrefab, new Vector3(transform.position.x + 1.0f, transform.position.y, transform.position.z + 3f), Quaternion.identity * Quaternion.Euler(90, 45, 0));
+        Instantiate(coinPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z + 1.5f), Quaternion.identity * Quaternion.Euler(90, 0, 0));
+        Instantiate(coinPrefab, new Vector3(transform.position.x + 1.0f, transform.position.y, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 45, 0));
+        Instantiate(coinPrefab, new Vector3(transform.position.x - 1.0f, transform.position.y, transform.position.z), Quaternion.identity * Quaternion.Euler(90, 135, 0));
     }
 
     private IEnumerator FlameThrowerCooldown()
@@ -268,6 +276,7 @@ public class EnemyHandler : MonoBehaviour
     {
         if(burnTime <= 0f)
         {
+            burnEffect.Play();
             burnTime = 5.0f;
             StartCoroutine(ApplyBurnDamage());
         }
@@ -281,6 +290,7 @@ public class EnemyHandler : MonoBehaviour
     {
         while (burnTime > 0)
         {
+            burnEffect.Play();
             burnTime -= 0.5f;
             WaitForSeconds wait = new WaitForSeconds(0.5f);
             yield return wait;
@@ -306,8 +316,10 @@ public class EnemyHandler : MonoBehaviour
         enemySpeed = 0.5f;
         while (freezeTime > 0)
         {
-            freezeTime -= Time.deltaTime;
-            yield return null;
+            freezeEffect.Play();
+            freezeTime -= 0.5f;
+            WaitForSeconds wait = new WaitForSeconds(0.5f);
+            yield return wait;
         }
         enemySpeed = 1.0f;
     }
